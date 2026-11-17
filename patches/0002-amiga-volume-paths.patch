@@ -1,0 +1,15 @@
+--- a/angolmois.c
++++ b/angolmois.c
+@@ -1757,6 +1757,12 @@
+ 		char *pos2 = strrchr(bmspath, '\\');
+ 		if (!pos1) pos1 = bmspath;
+ 		if (!pos2) pos2 = bmspath;
++#ifdef __amigaos__
++		/* AmigaOS: "DH0:song.bms" is in "DH0:", and the drawer keeps its colon */
++		char *colon = strrchr(bmspath, ':');
++		if (colon && colon >= (pos1>pos2 ? pos1 : pos2)) colon[1] = '\0';
++		else
++#endif
+ 		*(pos1>pos2 ? pos1 : pos2) = '\0';
+ 	}
+ 

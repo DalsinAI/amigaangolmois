@@ -1,0 +1,29 @@
+--- a/angolmois.c
++++ b/angolmois.c
+@@ -272,13 +272,13 @@
+ {
+ 	DIR *d;
+ 	struct dirent *e;
+-	int origcwd, i;
++	int i;
+ 	char pathbuf[strlen(path)+1]; /* so that we won't overwrite the original path */
++	char origcwd[1024]; /* by name: AmigaOS has no fchdir() */
+ 	SDL_RWops *ops = NULL;
+ 
+ 	path = strcpy(pathbuf, path);
+-	origcwd = open(".", O_RDONLY);
+-	if (origcwd < 0) return NULL;
++	if (!getcwd(origcwd, sizeof origcwd)) return NULL;
+ 	if (*bmspath && chdir(bmspath) < 0) goto exit;
+ 	for (; path[i = strcspn(path, "\\/")]; ++path) {
+ 		if (i == 0) continue; /* skips "//" or trailing "/" etc. */
+@@ -308,8 +308,7 @@
+ 	}
+ 	closedir(d);
+ exit:
+-	fchdir(origcwd);
+-	close(origcwd);
++	if (chdir(origcwd) < 0) warn("couldn't go back to %s", origcwd);
+ 	return ops;
+ }
+ 

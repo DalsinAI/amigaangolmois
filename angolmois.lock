@@ -1,0 +1,6 @@
+# What this port builds on: fetched at build time, never shipped from here.
+# Angolmois (GPL-2+) 2.0 alpha 3, master of 7 Oct 2013: one C file with its
+# font built in, on SDL 2, SDL2_mixer and SDL2_image
+AG_GIT=https://github.com/lifthrasiir/angolmois.git
+AG_COMMIT=625f8431556b8772b13a826d48a1becd228a8b1c
+AG_VERSION=2.0a3
